@@ -52,7 +52,7 @@ public class DriveTrain extends SubsystemBase
     rightDriveTalon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 
   }
-
+// it's a tank drive that drives the motors
   public void tankDrive(double leftSpeed, double rightSpeed) {
     rightDriveTalon.set(rightSpeed);
     leftDriveTalon.set(leftSpeed);
@@ -61,26 +61,28 @@ public class DriveTrain extends SubsystemBase
   public void resetEncoders() {
     leftDriveTalon.setSelectedSensorPosition(0,0,10);
     rightDriveTalon.setSelectedSensorPosition(0,0,10);
+    // sensors that marks the ticks (position sensor)
   }
-
+// counts the ticks, gets position
   public double getTicks() {
     return (leftDriveTalon.getSelectedSensorPosition(0) + rightDriveTalon.getSelectedSensorPosition(0)) / 2.0;
   }
- 
+ // gets the angle of the position from the unit circle
   public double getAngle(){
     return navx.getAngle(); 
   }
- 
+ // resets the angle to 0
   public void resetNavx(){
     navx.reset();
   }
 
   @Override
   public void periodic() {
+    //this basically just puts the data values that we want onto smartdashboard
     SmartDashboard.putNumber("Left Voltage", leftDriveTalon.getMotorOutputPercent());
     SmartDashboard.putNumber("Right Voltage", rightDriveTalon.getMotorOutputPercent());
     SmartDashboard.putNumber("Angle", navx.getAngle());
-
+//Sets percent of motor powers
     LeftVoltage.setDouble(leftDriveTalon.getMotorOutputPercent());
     RightVoltage.setDouble(rightDriveTalon.getMotorOutputPercent());
 
